@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting - Preyas QR</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .redirect-container {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .redirect-info {
+            margin-top: 20px;
+            color: #666;
+        }
+        .manual-link {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .manual-link a {
+            color: #3498db;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="redirect-container">
+            <h1>Redirecting...</h1>
+            <div class="spinner"></div>
+            <p class="redirect-info" id="redirect-info">Please wait while we redirect you</p>
+            <div class="manual-link" id="manual-link" style="display: none;">
+                <p>If you are not redirected automatically:</p>
+                <a href="#" id="manual-redirect-link" target="_blank">Click here to continue</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameter
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Validate URL
+        function isValidUrl(string) {
+            try {
+                const url = new URL(string);
+                return url.protocol === 'http:' || url.protocol === 'https:';
+            } catch (_) {
+                return false;
+            }
+        }
+
+        // Redirect logic
+        const targetUrl = getUrlParameter('url');
+        const redirectInfo = document.getElementById('redirect-info');
+        const manualLink = document.getElementById('manual-link');
+        const manualRedirectLink = document.getElementById('manual-redirect-link');
+
+        if (targetUrl && isValidUrl(targetUrl)) {
+            redirectInfo.textContent = `Redirecting to: ${targetUrl}`;
+            manualRedirectLink.href = targetUrl;
+            manualRedirectLink.textContent = targetUrl;
+
+            // Show manual link after 2 seconds
+            setTimeout(() => {
+                manualLink.style.display = 'block';
+            }, 2000);
+
+            // Redirect after 3 seconds
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 3000);
+        } else {
+            redirectInfo.textContent = 'Invalid or missing URL parameter';
+            redirectInfo.style.color = '#e74c3c';
+            manualLink.innerHTML = '<p>Please return to the <a href="index.html">homepage</a> to generate a valid QR code.</p>';
+            manualLink.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

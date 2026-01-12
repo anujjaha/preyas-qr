@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator - Preyas QR</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Preyas QR Code Generator</h1>
+            <p>Create QR codes that redirect to your desired URLs</p>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <label for="url-input">Enter URL to encode:</label>
+                <input type="url" id="url-input" placeholder="https://example.com" required>
+                <button id="generate-btn">Generate QR Code</button>
+            </div>
+
+            <div class="qr-display" id="qr-display">
+                <div id="qrcode"></div>
+                <p class="info-text">Your QR code will appear here</p>
+            </div>
+
+            <div class="actions" id="actions" style="display: none;">
+                <button id="download-btn">Download QR Code</button>
+                <button id="clear-btn">Clear</button>
+            </div>
+
+            <div class="generated-link" id="generated-link" style="display: none;">
+                <p>Redirect Link:</p>
+                <div class="link-container">
+                    <input type="text" id="redirect-url" readonly>
+                    <button id="copy-btn">Copy</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Scan the QR code to be redirected to your URL</p>
+        </footer>
+    </div>
+
+    <script src="qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
