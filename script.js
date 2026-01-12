@@ -93,17 +93,41 @@ function clearQRCode() {
 // Copy to Clipboard
 function copyToClipboard() {
     redirectUrlInput.select();
-    redirectUrlInput.setSelectionRange(0, 99999); // For mobile devices
+    redirectUrlInput.setSelectionRange(0, redirectUrlInput.value.length);
     
-    navigator.clipboard.writeText(redirectUrlInput.value).then(() => {
-        const originalText = copyBtn.textContent;
-        copyBtn.textContent = 'Copied!';
-        setTimeout(() => {
-            copyBtn.textContent = originalText;
-        }, 2000);
-    }).catch(err => {
+    // Try modern clipboard API first
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(redirectUrlInput.value).then(() => {
+            showCopyFeedback();
+        }).catch(() => {
+            // Fallback to execCommand
+            copyWithExecCommand();
+        });
+    } else {
+        // Fallback for older browsers or non-HTTPS
+        copyWithExecCommand();
+    }
+}
+
+function copyWithExecCommand() {
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+            showCopyFeedback();
+        } else {
+            alert('Failed to copy. Please copy manually.');
+        }
+    } catch (err) {
         alert('Failed to copy: ' + err);
-    });
+    }
+}
+
+function showCopyFeedback() {
+    const originalText = copyBtn.textContent;
+    copyBtn.textContent = 'Copied!';
+    setTimeout(() => {
+        copyBtn.textContent = originalText;
+    }, 2000);
 }
 
 // Event Listeners

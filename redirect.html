@@ -92,7 +92,18 @@
         } else {
             redirectInfo.textContent = 'Invalid or missing URL parameter';
             redirectInfo.style.color = '#e74c3c';
-            manualLink.innerHTML = '<p>Please return to the <a href="index.html">homepage</a> to generate a valid QR code.</p>';
+            
+            // Create elements safely to avoid XSS
+            const para = document.createElement('p');
+            para.textContent = 'Please return to the ';
+            const link = document.createElement('a');
+            link.href = 'index.html';
+            link.textContent = 'homepage';
+            para.appendChild(link);
+            para.appendChild(document.createTextNode(' to generate a valid QR code.'));
+            
+            manualLink.innerHTML = '';
+            manualLink.appendChild(para);
             manualLink.style.display = 'block';
         }
     </script>

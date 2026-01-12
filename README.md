@@ -79,7 +79,7 @@ The system consists of two main pages:
 - HTML5
 - CSS3 (with gradients and animations)
 - JavaScript (ES6+)
-- QRCode.js library (via CDN)
+- QRCode.js library (included locally)
 
 ## License
 
